@@ -130,6 +130,26 @@ namespace Excel_URL_Checker.Controllers
                 Message = "file uploaded successfull"
             });
         }
+        [HttpDelete("/api/excel/Exports")]
+        public async Task<IActionResult> DeleteExport(string FileName)
+        {
+            if (FileName != null)
+            {
+
+                var SavePath = Path.Combine(Directory.GetCurrentDirectory(), "Exports", FileName);
+
+                if (System.IO.File.Exists(SavePath))
+                {
+                    System.IO.File.Delete(SavePath);
+                };
+
+            }
+            return Ok(new Response<string>()
+            {
+                Succeeded = true,
+                Message = "file deleted successfull"
+            });
+        }
         [HttpDelete("{FileName}")]
         public async Task<IActionResult> Delete(string FileName)
         {
