@@ -2,6 +2,7 @@
 using Excel_URL_Checker.Wrappers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.StaticFiles;
 using Newtonsoft.Json;
 using System.IO.Compression;
 using System.Text;
@@ -56,9 +57,24 @@ namespace Excel_URL_Checker.Controllers
                 throw;
             }
 
+        }
+        [HttpGet("Download")]
+        public async Task<IActionResult> Getexports(string FileName)
+        {
 
+            string FilePath = Path.Combine(Directory.GetCurrentDirectory(), "Exports", FileName);
 
+            var fileDownloadName = System.IO.Path.GetFileName(FilePath);
+            var content = await System.IO.File.ReadAllBytesAsync(FilePath);
+            new FileExtensionContentTypeProvider()
+                .TryGetContentType(fileDownloadName, out string contentType);
+            if (contentType == null)
+            {
+                contentType = "application/octet-stream";
+            }
+            string filename = fileDownloadName.Trim().ToString();
 
+            return File(content, contentType, filename);
         }
         [HttpGet("Exports")]
         public async Task<IActionResult> Getexports()

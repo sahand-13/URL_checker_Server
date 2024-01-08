@@ -43,7 +43,7 @@ var app = builder.Build();
 
 app.UseCors(opt =>
 {
-    opt.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+    opt.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().WithExposedHeaders( "Content-Disposition"); ;
 });
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
