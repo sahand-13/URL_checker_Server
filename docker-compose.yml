@@ -1,5 +1,7 @@
 services:
   webapi:
+    ports:
+      - "5050:80"
     build:
       context: .
       dockerfile: ./Excel_URL_Checker/Dockerfile
