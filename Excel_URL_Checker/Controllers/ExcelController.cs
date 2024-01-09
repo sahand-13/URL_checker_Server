@@ -34,7 +34,7 @@ namespace Excel_URL_Checker.Controllers
 
             return compressedStream.ToArray();
         }
-        [DisableCors]
+        
         [HttpGet("CreateExcel")]
         public async Task<IActionResult> GetExcelData(int Similarity, string DBNames)
         {
@@ -60,7 +60,7 @@ namespace Excel_URL_Checker.Controllers
             }
 
         }
-        [DisableCors]
+        
         [HttpGet("Download")]
         public async Task<IActionResult> Getexports(string FileName)
         {
@@ -79,7 +79,7 @@ namespace Excel_URL_Checker.Controllers
 
             return File(content, contentType, filename);
         }
-        [DisableCors]
+        
         [HttpGet("Exports")]
         public async Task<IActionResult> Getexports()
         {
@@ -91,7 +91,7 @@ namespace Excel_URL_Checker.Controllers
                 Data = filesNames
             });
         }
-        [DisableCors]
+        
         [HttpGet]
         public async Task<IActionResult> GetImports()
         {
@@ -103,7 +103,7 @@ namespace Excel_URL_Checker.Controllers
                 Data = filesNames
             });
         }
-        [DisableCors]
+        
         [HttpPost]
         public async Task<IActionResult> PostExcels(List<IFormFile> Files)
         {
@@ -136,7 +136,7 @@ namespace Excel_URL_Checker.Controllers
                 Message = "file uploaded successfull"
             });
         }
-        [DisableCors]
+        
         [HttpDelete("/api/excel/Exports")]
         public async Task<IActionResult> DeleteExport(string FileName)
         {
@@ -157,7 +157,7 @@ namespace Excel_URL_Checker.Controllers
                 Message = "file deleted successfull"
             });
         }
-        [DisableCors]
+        
         [HttpDelete("{FileName}")]
         public async Task<IActionResult> Delete(string FileName)
         {
