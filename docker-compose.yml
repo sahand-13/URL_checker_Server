@@ -1,0 +1,7 @@
+services:
+  webapi:
+    build:
+      context: .
+      dockerfile: ./Excel_URL_Checker/Dockerfile
+    container_name: "urlserver"
+    restart: always
