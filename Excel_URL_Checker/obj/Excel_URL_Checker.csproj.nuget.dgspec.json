@@ -1,0 +1,116 @@
+{
+  "format": 1,
+  "restore": {
+    "E:\\Saam\\React_URL_Checker\\simple_JS\\server\\URL_Check\\Excel_URL_Checker\\Excel_URL_Checker.csproj": {}
+  },
+  "projects": {
+    "E:\\Saam\\React_URL_Checker\\simple_JS\\server\\URL_Check\\Excel_URL_Checker\\Excel_URL_Checker.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Saam\\React_URL_Checker\\simple_JS\\server\\URL_Check\\Excel_URL_Checker\\Excel_URL_Checker.csproj",
+        "projectName": "Excel_URL_Checker",
+        "projectPath": "E:\\Saam\\React_URL_Checker\\simple_JS\\server\\URL_Check\\Excel_URL_Checker\\Excel_URL_Checker.csproj",
+        "packagesPath": "C:\\Users\\Sahand\\.nuget\\packages\\",
+        "outputPath": "E:\\Saam\\React_URL_Checker\\simple_JS\\server\\URL_Check\\Excel_URL_Checker\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\DevExpress 22.2\\Components\\Offline Packages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Sahand\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 22.2.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files\\DevExpress 22.2\\Components\\System\\Components\\Packages": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "EPPlus": {
+              "target": "Package",
+              "version": "[7.0.5, )"
+            },
+            "Microsoft.AspNet.Cors": {
+              "target": "Package",
+              "version": "[5.3.0, )"
+            },
+            "Microsoft.AspNetCore.ResponseCompression": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.Data.SqlClient": {
+              "target": "Package",
+              "version": "[5.1.2, )"
+            },
+            "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": {
+              "target": "Package",
+              "version": "[1.19.4, )"
+            },
+            "NPOI": {
+              "target": "Package",
+              "version": "[2.6.2, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.5.0, )"
+            },
+            "System.Data.OleDb": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "System.IO.Compression": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.IO.Compression.ZipFile": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Excel_URL_Checker.props" />
+</Project>
