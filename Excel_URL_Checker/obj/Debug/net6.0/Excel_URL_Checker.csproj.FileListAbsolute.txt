@@ -1,8 +1,6 @@
 E:\Saam\React_URL_Checker\simple_JS\server\URL_Check\Excel_URL_Checker\build\Debug\net6.0\appsettings.Development.json
 E:\Saam\React_URL_Checker\simple_JS\server\URL_Check\Excel_URL_Checker\build\Debug\net6.0\appsettings.json
 E:\Saam\React_URL_Checker\simple_JS\server\URL_Check\Excel_URL_Checker\build\Debug\net6.0\Excel_URL_Checker.exe
-E:\Saam\React_URL_Checker\simple_JS\server\URL_Check\Excel_URL_Checker\build\Debug\net6.0\Exports\Book1 (1)-1371236235.xlsx-Untitled spreadsheet.xlsx-Book1 (1).xlsx - 23%.xlsx
-E:\Saam\React_URL_Checker\simple_JS\server\URL_Check\Excel_URL_Checker\build\Debug\net6.0\Imports\Book1 (1).xlsx
 E:\Saam\React_URL_Checker\simple_JS\server\URL_Check\Excel_URL_Checker\build\Debug\net6.0\Excel_URL_Checker.deps.json
 E:\Saam\React_URL_Checker\simple_JS\server\URL_Check\Excel_URL_Checker\build\Debug\net6.0\Excel_URL_Checker.runtimeconfig.json
 E:\Saam\React_URL_Checker\simple_JS\server\URL_Check\Excel_URL_Checker\build\Debug\net6.0\Excel_URL_Checker.dll

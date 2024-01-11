@@ -4,6 +4,6 @@ namespace Excel_URL_Checker.Interfaces
 {
     public interface ICompareService
     {
-        Task<List<ChildrenDTO>> CompareData(List<ExcelDTO> Data, int Similarity);
+        Task<List<ChildrenDTO>> CompareData(List<ExcelDTO> Data, int Similarity, int KeysComparePercentage);
     }
 }

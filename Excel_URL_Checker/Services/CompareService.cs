@@ -7,7 +7,7 @@ namespace Excel_URL_Checker.Services
 {
     public class CompareService : ICompareService
     {
-        public async Task<List<ChildrenDTO>> CompareData(List<ExcelDTO> Data, int Similarity)
+        public async Task<List<ChildrenDTO>> CompareData(List<ExcelDTO> Data, int Similarity, int KeysComparePercentage)
         {
             if (Data.Count > 0)
             {
@@ -44,6 +44,7 @@ namespace Excel_URL_Checker.Services
                                Similarity = ((100 / i.organic.Split(",").ToList().Count()) * c.organic.Split(",").ToList().Intersect(i.organic.Split(",").ToList()).Count())
                            };
                        }).ToList();
+                       keysGroup = keysGroup.OrderBy(x => x).ToList();
 
                        var ChildrensMaxDifficulty = similarities.Count() > 0 ? similarities.Select(i => i).Max(i => i.Difficulty) : int.Parse("0");
 
@@ -57,7 +58,7 @@ namespace Excel_URL_Checker.Services
                            organic = i.organic,
                            SimilarityChildrens = similarities,
                        };
-                   }).DistinctBy(x => x.GroupKeys, new ListStringEqualityComparer()).ToList();
+                   }).DistinctBy(x => x.GroupKeys, new ListStringEqualityComparer(KeysComparePercentage)).ToList();
                 });
                 return result;
             }
@@ -70,15 +71,21 @@ namespace Excel_URL_Checker.Services
 }
 public class ListStringEqualityComparer : IEqualityComparer<List<string>>
 {
+    private readonly int _KeysComparePercentage;
+    public ListStringEqualityComparer(int KeysComparePercentage)
+    {
+        _KeysComparePercentage = KeysComparePercentage;
+    }
     public bool Equals(List<string> x, List<string> y)
     {
-        if (ReferenceEquals(x, y))
+
+        var itemsEqualsCount = x.Intersect(y).ToList().Count;
+        var percentage = ((100 / x.Count) * itemsEqualsCount);
+        if (percentage >= _KeysComparePercentage)
+        {
             return true;
-
-        if (ReferenceEquals(x, null) || ReferenceEquals(y, null))
-            return false;
-
-        return x.SequenceEqual(y);
+        }
+        return false;
     }
 
     public int GetHashCode(List<string> obj)
@@ -86,15 +93,38 @@ public class ListStringEqualityComparer : IEqualityComparer<List<string>>
         unchecked
         {
             int hash = 17;
-
-            foreach (var item in obj)
+            foreach (var str in obj)
             {
-                hash = hash * 23 + item.GetHashCode();
+                hash = hash * 23 + str.GetHashCode();
             }
-
             return hash;
         }
     }
+    //public bool Equals(List<string> x, List<string> y)
+    //{
+    //    if (ReferenceEquals(x, y))
+    //        return true;
+
+    //    if (ReferenceEquals(x, null) || ReferenceEquals(y, null))
+    //        return false;
+
+    //    return x.SequenceEqual(y);
+    //}
+
+    //public int GetHashCode(List<string> obj)
+    //{
+    //    unchecked
+    //    {
+    //        int hash = 17;
+
+    //        foreach (var item in obj)
+    //        {
+    //            hash = hash * 23 + item.GetHashCode();
+    //        }
+
+    //        return hash;
+    //    }
+    //}
 }
 public class ChildrenDTO : ExcelDTO
 {

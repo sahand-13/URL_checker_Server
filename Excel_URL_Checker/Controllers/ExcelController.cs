@@ -34,9 +34,9 @@ namespace Excel_URL_Checker.Controllers
 
             return compressedStream.ToArray();
         }
-        
+
         [HttpGet("CreateExcel")]
-        public async Task<IActionResult> GetExcelData(int Similarity, string DBNames)
+        public async Task<IActionResult> GetExcelData(int Similarity, string DBNames, int KeysComparePercentage)
         {
             try
             {
@@ -45,13 +45,11 @@ namespace Excel_URL_Checker.Controllers
 
                 var ExcelData = await _datasourceService.LoadDataSource(Similarity, DBList);
 
-                var result = await _compareService.CompareData(ExcelData, Similarity);
+                var result = await _compareService.CompareData(ExcelData, Similarity, KeysComparePercentage);
 
-                var Response = await _createExcelService.createExcel(result, DBList, Similarity);
-                //var BytesOfData = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(result);
+                var Response = await _createExcelService.createExcel(result, DBList, Similarity , KeysComparePercentage);
 
                 return Ok(Response);
-                //return File(BytesOfData, "application/octet-stream");
             }
             catch (Exception e)
             {
@@ -60,7 +58,7 @@ namespace Excel_URL_Checker.Controllers
             }
 
         }
-        
+
         [HttpGet("Download")]
         public async Task<IActionResult> Getexports(string FileName)
         {
@@ -79,7 +77,7 @@ namespace Excel_URL_Checker.Controllers
 
             return File(content, contentType, filename);
         }
-        
+
         [HttpGet("Exports")]
         public async Task<IActionResult> Getexports()
         {
@@ -91,7 +89,7 @@ namespace Excel_URL_Checker.Controllers
                 Data = filesNames
             });
         }
-        
+
         [HttpGet]
         public async Task<IActionResult> GetImports()
         {
@@ -103,7 +101,7 @@ namespace Excel_URL_Checker.Controllers
                 Data = filesNames
             });
         }
-        
+
         [HttpPost]
         public async Task<IActionResult> PostExcels(List<IFormFile> Files)
         {
@@ -136,7 +134,7 @@ namespace Excel_URL_Checker.Controllers
                 Message = "file uploaded successfull"
             });
         }
-        
+
         [HttpDelete("/api/excel/Exports")]
         public async Task<IActionResult> DeleteExport(string FileName)
         {
@@ -157,7 +155,7 @@ namespace Excel_URL_Checker.Controllers
                 Message = "file deleted successfull"
             });
         }
-        
+
         [HttpDelete("{FileName}")]
         public async Task<IActionResult> Delete(string FileName)
         {

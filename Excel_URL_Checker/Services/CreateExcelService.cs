@@ -7,6 +7,7 @@ using NPOI.XSSF.UserModel;
 using NPOI.SS.Formula.Functions;
 using OfficeOpenXml.Drawing.Controls;
 using System.Collections.Concurrent;
+using NPOI.HPSF;
 
 namespace Excel_URL_Checker.Services
 {
@@ -14,7 +15,7 @@ namespace Excel_URL_Checker.Services
     {
         public CreateExcelService() { }
 
-        public async Task<Response<string>> createExcel(List<ChildrenDTO> Data, List<string> CreatFileName, int Similarity)
+        public async Task<Response<string>> createExcel(List<ChildrenDTO> Data, List<string> CreatFileName, int Similarity ,int KeysComparePercentage)
         {
             // Create workbook and worksheet
             IWorkbook workbook = new XSSFWorkbook();
@@ -144,9 +145,9 @@ namespace Excel_URL_Checker.Services
             {
                 worksheet.AutoSizeColumn(i);
             }
-
+            CreatFileName = CreatFileName.Select(i => Path.ChangeExtension(i, null)).ToList();
             // Save the Excel file
-            using (FileStream fileStream = new FileStream(Path.Combine(Directory.GetCurrentDirectory(), "Exports", $"{string.Join("-", CreatFileName) + " - " + Similarity + "%"}.xlsx"), FileMode.Create))
+            using (FileStream fileStream = new FileStream(Path.Combine(Directory.GetCurrentDirectory(), "Exports", $"{string.Join("-", CreatFileName) + " - Similarity __" + Similarity + " % - Grouping Keys__" + KeysComparePercentage + " %"}.xlsx"), FileMode.Create))
             {
                 workbook.Write(fileStream);
             }
