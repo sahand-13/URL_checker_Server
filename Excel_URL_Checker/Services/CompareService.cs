@@ -58,7 +58,7 @@ namespace Excel_URL_Checker.Services
                            organic = i.organic,
                            SimilarityChildrens = similarities,
                        };
-                   }).DistinctBy(x => x.GroupKeys, new ListStringEqualityComparer(KeysComparePercentage)).ToList();
+                   }).OrderByDescending(x => x?.SimilarityChildrens?.Count).DistinctBy(x => x.GroupKeys, new ListStringEqualityComparer(KeysComparePercentage)).ToList();
                 });
                 return result;
             }
