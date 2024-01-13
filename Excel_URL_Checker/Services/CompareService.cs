@@ -1,5 +1,6 @@
 ﻿using Excel_URL_Checker.DTOs;
 using Excel_URL_Checker.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using OfficeOpenXml;
 using System.Linq;
 
@@ -58,9 +59,56 @@ namespace Excel_URL_Checker.Services
                            organic = i.organic,
                            SimilarityChildrens = similarities,
                        };
-                   }).OrderByDescending(x => x?.SimilarityChildrens?.Count).DistinctBy(x => x.GroupKeys, new ListStringEqualityComparer(KeysComparePercentage)).ToList();
+                   }).OrderByDescending(x => x?.SimilarityChildrens?.Count).ToList();
                 });
-                return result;
+                var newResult = new List<ChildrenDTO>();
+
+                foreach (var item in result)
+                {
+                    if (item.SimilarityChildrens.Count == 0)
+                    {
+                        newResult.Add(item);
+                    }
+                    var foundedSimilarKeys = result.FindAll(i =>
+                    {
+                        if ((i.Key != item.Key) && (i.GroupKeys.Count() <= item.GroupKeys.Count()))
+                        {
+
+                            var itemsEqualsCount = item.GroupKeys.Intersect(i.GroupKeys).ToList().Count;
+                            var percentage = ((100 / item.GroupKeys.Count) * itemsEqualsCount);
+                            if (percentage >= KeysComparePercentage)
+                            {
+                                return true;
+                            }
+                        }
+                        return false;
+                    });
+
+                    var isExist = newResult.FindAll(i =>
+                     {
+                         if ((i.Key != item.Key) && (i.GroupKeys.Count() <= item.GroupKeys.Count()))
+                         {
+
+                             var itemsEqualsCount = item.GroupKeys.Intersect(i.GroupKeys).ToList().Count;
+                             var percentage = ((100 / item.GroupKeys.Count) * itemsEqualsCount);
+                             if (percentage >= KeysComparePercentage)
+                             {
+                                 return true;
+                             }
+                         }
+                         return false;
+                     });
+                    if (isExist.Count == 0)
+                    {
+                        newResult.Add(item);
+                    }
+
+
+                }
+
+
+
+                return newResult;
             }
 
             return new List<ChildrenDTO>();
@@ -90,15 +138,8 @@ public class ListStringEqualityComparer : IEqualityComparer<List<string>>
 
     public int GetHashCode(List<string> obj)
     {
-        unchecked
-        {
-            int hash = 17;
-            foreach (var str in obj)
-            {
-                hash = hash * 23 + str.GetHashCode();
-            }
-            return hash;
-        }
+
+        return obj.GetHashCode();
     }
     //public bool Equals(List<string> x, List<string> y)
     //{
