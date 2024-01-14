@@ -55,7 +55,7 @@ namespace Excel_URL_Checker.Services
                            GroupKeys = keysGroup,
                            Key = i.Key,
                            Difficulty = i.Difficulty,
-                           SearchRate =  i.SearchRate,
+                           SearchRate = i.SearchRate,
                            organic = i.organic,
                            SimilarityChildrens = similarities,
                        };
@@ -84,8 +84,8 @@ namespace Excel_URL_Checker.Services
                         newMerged.ID = Guid.NewGuid();
                         newMerged.Key = item.Key;
                         newMerged.GroupKeys = foundedGroups.SelectMany(i => i.GroupKeys).Distinct().ToList();
-                        newMerged.SimilarityChildrens = foundedGroups.SelectMany(i => i.SimilarityChildrens).DistinctBy(i=>i.Key).ToList();
-                        newMerged.SearchRate = foundedGroups.DistinctBy(i => i.Key).Sum(i => i.SearchRate);
+                        newMerged.SimilarityChildrens = foundedGroups.SelectMany(i => i.SimilarityChildrens).DistinctBy(i => i.Key).ToList();
+                        newMerged.SearchRate = foundedGroups.SelectMany(i => i.SimilarityChildrens).DistinctBy(i => i.Key).Sum(i => i.SearchRate);
                         newMerged.Difficulty = foundedGroups.DistinctBy(i => i.Key).Max(i => i.Difficulty);
                         createNewMergedData.Add(newMerged);
                         result.RemoveAll(foundedGroups.Contains);
