@@ -54,8 +54,8 @@ namespace Excel_URL_Checker.Services
                            ID = Guid.NewGuid(),
                            GroupKeys = keysGroup,
                            Key = i.Key,
-                           Difficulty = i.Difficulty != null ? Math.Max(ChildrensMaxDifficulty ?? default(int), i?.Difficulty ?? default(int)) : ChildrensMaxDifficulty,
-                           SearchRate = similarities.Select(i => i).Sum(i => i.SearchRate) + i.SearchRate,
+                           Difficulty = i.Difficulty,
+                           SearchRate =  i.SearchRate,
                            organic = i.organic,
                            SimilarityChildrens = similarities,
                        };
