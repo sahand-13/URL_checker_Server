@@ -153,7 +153,7 @@ namespace Excel_URL_Checker.Services
             }
             return new Response<string>()
             {
-                Data = $"{string.Join("-", CreatFileName) + " - " + Similarity + "%"}.xlsx",
+                Data = $"{string.Join("-", CreatFileName) + " - Similarity __" + Similarity + " % - Grouping Keys__" + KeysComparePercentage + " %"}.xlsx",
                 Succeeded = true,
             };
         }

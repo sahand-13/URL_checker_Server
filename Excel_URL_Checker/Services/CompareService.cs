@@ -61,54 +61,91 @@ namespace Excel_URL_Checker.Services
                        };
                    }).OrderByDescending(x => x?.SimilarityChildrens?.Count).ToList();
                 });
-                var newResult = new List<ChildrenDTO>();
-
-                foreach (var item in result)
+                var createNewMergedData = new List<ChildrenDTO>();
+                foreach (var item in result.ToList())
                 {
-                    if (item.SimilarityChildrens.Count == 0)
+                    var foundedGroups = result.Where(i =>
                     {
-                        newResult.Add(item);
-                    }
-                    var foundedSimilarKeys = result.FindAll(i =>
-                    {
-                        if ((i.Key != item.Key) && (i.GroupKeys.Count() <= item.GroupKeys.Count()))
+                        var DataOrganic = i.GroupKeys;
+                        var objOrganic = item.GroupKeys;
+
+                        var similaritiesPercentage = ((100.0 / DataOrganic.Count()) * DataOrganic.Intersect(objOrganic).Count());
+                        if (objOrganic.Count > DataOrganic.Count)
                         {
-
-                            var itemsEqualsCount = item.GroupKeys.Intersect(i.GroupKeys).ToList().Count;
-                            var percentage = ((100 / item.GroupKeys.Count) * itemsEqualsCount);
-                            if (percentage >= KeysComparePercentage)
-                            {
-                                return true;
-                            }
+                            similaritiesPercentage = ((100.0 / objOrganic.Count()) * objOrganic.Intersect(DataOrganic).Count());
                         }
-                        return false;
-                    });
+                        return similaritiesPercentage >= KeysComparePercentage;
+                    }).ToList();
 
-                    var isExist = newResult.FindAll(i =>
-                     {
-                         if ((i.Key != item.Key) && (i.GroupKeys.Count() <= item.GroupKeys.Count()))
-                         {
-
-                             var itemsEqualsCount = item.GroupKeys.Intersect(i.GroupKeys).ToList().Count;
-                             var percentage = ((100 / item.GroupKeys.Count) * itemsEqualsCount);
-                             if (percentage >= KeysComparePercentage)
-                             {
-                                 return true;
-                             }
-                         }
-                         return false;
-                     });
-                    if (isExist.Count == 0)
+                    if (foundedGroups.Count > 0)
                     {
-                        newResult.Add(item);
+                        foundedGroups.Add(item);
+                        var newMerged = new ChildrenDTO();
+                        newMerged.ID = Guid.NewGuid();
+                        newMerged.Key = item.Key;
+                        newMerged.GroupKeys = foundedGroups.SelectMany(i => i.GroupKeys).Distinct().ToList();
+                        newMerged.SimilarityChildrens = foundedGroups.SelectMany(i => i.SimilarityChildrens).Distinct().ToList();
+                        newMerged.SearchRate = foundedGroups.Sum(i => i.SearchRate);
+                        newMerged.Difficulty = foundedGroups.Max(i => i.Difficulty);
+                        createNewMergedData.Add(newMerged);
+                        result.RemoveAll(foundedGroups.Contains);
                     }
-
-
                 }
 
+                result.AddRange(createNewMergedData);
 
 
-                return newResult;
+                //var newResult = new List<ChildrenDTO>();
+                //foreach (var item in result.ToList())
+                //{
+                //    var foundedSimilarKeys = result.FindAll(i =>
+                //    {
+                //        if ((i.Key != item.Key) && (i.GroupKeys.Count() <= item.GroupKeys.Count()))
+                //        {
+
+                //            var itemsEqualsCount = item.GroupKeys.Intersect(i.GroupKeys).ToList().Count;
+                //            var percentage = ((100 / item.GroupKeys.Count) * itemsEqualsCount);
+                //            if (percentage >= KeysComparePercentage)
+                //            {
+                //                return true;
+                //            }
+                //        }
+                //        return false;
+                //    });
+
+                //    var newChildrens = new List<ChildrenDTO>();
+
+                //    var newParents = item;
+
+                //    foreach (var child in item.SimilarityChildrens)
+                //    {
+                //        newChildrens.Add(child);
+                //        foreach (var x in foundedSimilarKeys.ToList())
+                //        {
+                //            var newChilds = x.SimilarityChildrens.FindAll(i => i.Key != child.Key).ToList();
+                //            foreach (var z in newChilds)
+                //            {
+                //                newChildrens.Add(z);
+                //                foundedSimilarKeys.Remove(z);
+
+                //            }
+
+                //        }
+                //    }
+                //    var ChildrensMaxDifficulty = newChildrens.Count() > 0 ? newChildrens.Select(i => i).Max(i => i.Difficulty) : int.Parse("0");
+                //    //Difficulty = i.Difficulty != null ? Math.Max(ChildrensMaxDifficulty ?? default(int), i?.Difficulty ?? default(int)) : ChildrensMaxDifficulty,
+                //    //       SearchRate = similarities.Select(i => i).Sum(i => i.SearchRate) + i.SearchRate,
+                //    newParents.SimilarityChildrens = newChildrens;
+                //    newParents.Difficulty = item.Difficulty != null ? Math.Max(ChildrensMaxDifficulty ?? default(int), item?.Difficulty ?? default(int)) : ChildrensMaxDifficulty;
+                //    newParents.SearchRate = newChildrens.Select(i => i).Sum(i => i.SearchRate) + item.SearchRate;
+                //}
+
+
+
+
+
+
+                return createNewMergedData;
             }
 
             return new List<ChildrenDTO>();
